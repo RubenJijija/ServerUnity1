@@ -1614,9 +1614,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ce5c78bc0c5af46a7a0cc5d4d04041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  barraIzquierdaPrefab: {fileID: 0}
-  barraDerechaPrefab: {fileID: 0}
-  pelotaPrefab: {fileID: 0}
+  barraIzquierdaPrefab: {fileID: 6480065530166318508, guid: 62a4c866c2d25754a8eec280be8acf7c, type: 3}
+  barraDerechaPrefab: {fileID: 437854832554360483, guid: 43c1b9f7bd3cc1e47861fa6633766496, type: 3}
+  pelotaPrefab: {fileID: 1469969433730639122, guid: f2d80b1bdb7f73a4b9e197c4733cf7d0, type: 3}
   scoreJugador1:
     m_InternalValue: 0
   scoreJugador2:

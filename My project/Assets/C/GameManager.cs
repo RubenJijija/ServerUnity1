@@ -39,28 +39,38 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        NetworkManager.Singleton.OnServerStarted += CrearObjetos;
         NetworkManager.Singleton.OnClientConnectedCallback += AsignarBarra;
     }
 
     private void OnDisable()
     {
+        NetworkManager.Singleton.OnServerStarted -= CrearObjetos;
         NetworkManager.Singleton.OnClientConnectedCallback -= AsignarBarra;
     }
 
     private void AsignarBarra(ulong clientId)
     {
-        // El servidor nunca recibe ownership, solo los clientes
-        var barras = FindObjectsOfType<BarraOnline>();
+        if (!NetworkManager.Singleton.IsServer) return;
 
-        // Primer cliente ? barra izquierda
-        if (NetworkManager.Singleton.ConnectedClients.Count == 2 && barras.Length > 0)
+        if (barraIzqInstancia == null || barraDerInstancia == null)
         {
-            barras[0].GetComponent<NetworkObject>().ChangeOwnership(clientId);
+            Debug.LogWarning("Las barras aún no están instanciadas, esperando...");
+            return;
         }
-        // Segundo cliente ? barra derecha
-        else if (NetworkManager.Singleton.ConnectedClients.Count == 3 && barras.Length > 1)
+
+        var barraIzqNetObj = barraIzqInstancia.GetComponent<NetworkObject>();
+        var barraDerNetObj = barraDerInstancia.GetComponent<NetworkObject>();
+
+        if (barraIzqNetObj.OwnerClientId == NetworkManager.ServerClientId)
         {
-            barras[1].GetComponent<NetworkObject>().ChangeOwnership(clientId);
+            barraIzqNetObj.ChangeOwnership(clientId);
+            Debug.Log($"Cliente {clientId} asignado a barra izquierda");
+        }
+        else if (barraDerNetObj.OwnerClientId == NetworkManager.ServerClientId)
+        {
+            barraDerNetObj.ChangeOwnership(clientId);
+            Debug.Log($"Cliente {clientId} asignado a barra derecha");
         }
     }
 
