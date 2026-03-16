@@ -1,5 +1,5 @@
-using UnityEngine;
 using Unity.Netcode;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     public GameObject barraDerechaPrefab;
     public GameObject pelotaPrefab;
 
-    private GameObject barraIzqInstancia;
-    private GameObject barraDerInstancia;
     private GameObject pelotaInstancia;
 
     public NetworkVariable<int> scoreJugador1 = new NetworkVariable<int>();
@@ -18,59 +16,61 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("GameManager Start ejecutado. IsServer=" + NetworkManager.Singleton.IsServer);
+
         if (NetworkManager.Singleton.IsServer)
         {
-            // Solo el servidor crea los objetos, pero no se asigna a sí mismo
-            CrearObjetos();
+            CrearPelota();
         }
     }
-
-    private void CrearObjetos()
-    {
-        barraIzqInstancia = Instantiate(barraIzquierdaPrefab, new Vector2(-7f, 0f), Quaternion.identity);
-        barraIzqInstancia.GetComponent<NetworkObject>().Spawn();
-
-        barraDerInstancia = Instantiate(barraDerechaPrefab, new Vector2(7f, 0f), Quaternion.identity);
-        barraDerInstancia.GetComponent<NetworkObject>().Spawn();
-
-        pelotaInstancia = Instantiate(pelotaPrefab, Vector2.zero, Quaternion.identity);
-        pelotaInstancia.GetComponent<NetworkObject>().Spawn();
-    }
-
     private void OnEnable()
     {
-        NetworkManager.Singleton.OnServerStarted += CrearObjetos;
         NetworkManager.Singleton.OnClientConnectedCallback += AsignarBarra;
     }
 
     private void OnDisable()
     {
-        NetworkManager.Singleton.OnServerStarted -= CrearObjetos;
         NetworkManager.Singleton.OnClientConnectedCallback -= AsignarBarra;
+    }
+
+    private void CrearPelota()
+    {
+        pelotaInstancia = Instantiate(pelotaPrefab, Vector2.zero, Quaternion.identity);
+        pelotaInstancia.GetComponent<NetworkObject>().Spawn();
+        Debug.Log(">>> Pelota creada y spawneada en el servidor <<<");
     }
 
     private void AsignarBarra(ulong clientId)
     {
         if (!NetworkManager.Singleton.IsServer) return;
 
-        if (barraIzqInstancia == null || barraDerInstancia == null)
+        GameObject barraPrefab = null;
+        Vector2 posicion = Vector2.zero;
+
+        // Decide qué barra asignar según el orden de conexión
+        if (NetworkManager.Singleton.ConnectedClients.Count == 1)
         {
-            Debug.LogWarning("Las barras aún no están instanciadas, esperando...");
-            return;
+            barraPrefab = barraIzquierdaPrefab;
+            posicion = new Vector2(-7f, 0f);
+        }
+        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            barraPrefab = barraDerechaPrefab;
+            posicion = new Vector2(7f, 0f);
+        }
+        if (NetworkManager.Singleton.ConnectedClients.Count == 2 && pelotaInstancia == null)
+        {
+            CrearPelota();
+            Debug.Log(">>> Pelota creada al conectarse ambos jugadores <<<");
         }
 
-        var barraIzqNetObj = barraIzqInstancia.GetComponent<NetworkObject>();
-        var barraDerNetObj = barraDerInstancia.GetComponent<NetworkObject>();
 
-        if (barraIzqNetObj.OwnerClientId == NetworkManager.ServerClientId)
+
+        if (barraPrefab != null)
         {
-            barraIzqNetObj.ChangeOwnership(clientId);
-            Debug.Log($"Cliente {clientId} asignado a barra izquierda");
-        }
-        else if (barraDerNetObj.OwnerClientId == NetworkManager.ServerClientId)
-        {
-            barraDerNetObj.ChangeOwnership(clientId);
-            Debug.Log($"Cliente {clientId} asignado a barra derecha");
+            var barraInstancia = Instantiate(barraPrefab, posicion, Quaternion.identity);
+            barraInstancia.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            Debug.Log($"Cliente {clientId} recibió su barra");
         }
     }
 
@@ -105,10 +105,8 @@ public class GameManager : MonoBehaviour
         scoreJugador1.Value = 0;
         scoreJugador2.Value = 0;
 
-        if (barraIzqInstancia != null) barraIzqInstancia.GetComponent<NetworkObject>().Despawn(true);
-        if (barraDerInstancia != null) barraDerInstancia.GetComponent<NetworkObject>().Despawn(true);
         if (pelotaInstancia != null) pelotaInstancia.GetComponent<NetworkObject>().Despawn(true);
 
-        CrearObjetos();
+        CrearPelota();
     }
 }
