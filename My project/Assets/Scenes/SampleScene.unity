@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 356513597}
   m_Layer: 0
   m_Name: Pared2
-  m_TagString: Barra
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1300,7 +1300,7 @@ GameObject:
   - component: {fileID: 1213479527}
   m_Layer: 0
   m_Name: Pared4
-  m_TagString: Barra
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1672,7 +1672,7 @@ GameObject:
   - component: {fileID: 1289882921}
   m_Layer: 0
   m_Name: Pared
-  m_TagString: Barra
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2175,7 +2175,7 @@ GameObject:
   - component: {fileID: 1543566354}
   m_Layer: 0
   m_Name: Pared3
-  m_TagString: Barra
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

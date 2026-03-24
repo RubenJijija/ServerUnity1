@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2990360412365315154}
   - component: {fileID: 1922296227326877938}
   - component: {fileID: 7868762884480534966}
-  - component: {fileID: -7868498918611530844}
   - component: {fileID: 4604183046625432727}
+  - component: {fileID: 1105090457870615386}
   m_Layer: 0
   m_Name: Pelota
   m_TagString: Untagged
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2688817950
+  GlobalObjectIdHash: 2610186624
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -203,20 +203,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-7868498918611530844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469969433730639122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fa20ee27bf2b7b4c947c2646bc3b73f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PelotaOnline
-  ShowTopMostFoldoutHeaderGroup: 1
-  velocidad: 5
 --- !u!50 &4604183046625432727
 Rigidbody2D:
   serializedVersion: 5
@@ -227,7 +213,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1469969433730639122}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -242,5 +228,21 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &1105090457870615386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469969433730639122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340d17a44db2475458543d86bb6ca104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BallController
+  ShowTopMostFoldoutHeaderGroup: 1
+  initialSpeed: 5
+  speedIncrement: 0.5
+  maxSpeed: 15

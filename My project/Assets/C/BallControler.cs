@@ -5,13 +5,17 @@ public class BallController : NetworkBehaviour
 {
     public float initialSpeed = 5f;
     public float speedIncrement = 0.5f;
+    public float maxSpeed = 15f; // límite de velocidad máxima
+
     private Rigidbody2D rb;
 
     public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // Solo el servidor controla la f�sica
+        // Configuración recomendada para evitar tunneling
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
         if (IsServer)
         {
             LaunchBall();
@@ -29,7 +33,7 @@ public class BallController : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!IsServer) return; // Solo el servidor procesa rebotes
+        if (!IsServer) return;
 
         // Rebote con paletas
         if (collision.gameObject.CompareTag("Paddle"))
@@ -41,7 +45,14 @@ public class BallController : NetworkBehaviour
             rb.linearVelocity = dir * rb.linearVelocity.magnitude;
         }
 
-        // Aceleraci�n progresiva
+        // Rebote con paredes (si usas tag "Wall")
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
+        }
+
+        // Aceleración progresiva + límite de velocidad
         rb.linearVelocity = rb.linearVelocity.normalized * (rb.linearVelocity.magnitude + speedIncrement);
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
     }
 }
