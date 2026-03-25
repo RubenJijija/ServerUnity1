@@ -1,6 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem; // Importante
+using UnityEngine.InputSystem;
 
 public class BarraOnline : NetworkBehaviour
 {
@@ -13,17 +13,15 @@ public class BarraOnline : NetworkBehaviour
     {
         if (IsOwner)
         {
-            // Cada cliente inicializa su propio PlayerInput
             playerInput = GetComponent<PlayerInput>();
             moverAction = playerInput.actions["Mover"];
         }
+    }
 
-        if (IsServer)
-        {
-            // Posición inicial según el dueño
-            int playerIndex = OwnerClientId == 0 ? 0 : 1;
-            transform.position = playerIndex == 0 ? new Vector2(-7f, 0f) : new Vector2(7f, 0f);
-        }
+    [ServerRpc(RequireOwnership = false)]
+    public void SetInitialPositionServerRpc(Vector2 pos)
+    {
+        transform.position = pos;
     }
 
     void Update()
