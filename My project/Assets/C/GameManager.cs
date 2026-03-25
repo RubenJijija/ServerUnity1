@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
             netObj.SpawnWithOwnership(clientId);
 
             // Forzar posición inicial desde el servidor
-            barraInstancia.GetComponent<BarraOnline>().SetInitialPositionServerRpc(posicion);
+          //  barraInstancia.GetComponent<BarraOnline>().SetInitialPositionServerRpc(posicion);
 
             Debug.Log($"Cliente {clientId} asignado a {(indice == 0 ? "izquierda" : "derecha")} en {posicion}");
         }

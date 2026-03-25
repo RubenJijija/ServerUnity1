@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 4344180324699883173}
   - component: {fileID: 1345121290365755171}
   - component: {fileID: 2715603594527598186}
-  - component: {fileID: 1647437011501966084}
   - component: {fileID: -2650883763782143314}
   - component: {fileID: 7344426810838761782}
   - component: {fileID: 7168800969624895353}
   - component: {fileID: 3206844494422736009}
+  - component: {fileID: 738984556473876550}
   m_Layer: 0
   m_Name: Jugador
   m_TagString: Paddle
@@ -122,20 +122,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1647437011501966084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6480065530166318508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed89d86e77a3c542ba45ba31514d16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BarraOnline
-  ShowTopMostFoldoutHeaderGroup: 1
-  velocidad: 10
 --- !u!61 &-2650883763782143314
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -281,7 +267,21 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &738984556473876550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480065530166318508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac54bde9838abc4fbe0c15dfae0fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PaddleController
+  ShowTopMostFoldoutHeaderGroup: 1
+  speed: 6

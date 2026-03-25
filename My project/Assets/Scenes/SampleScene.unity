@@ -958,9 +958,9 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 187.210.85.229
+    Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 0.0.0.0
+    ServerListenAddress: 127.0.0.1
     ClientBindPort: 0
   DebugSimulator:
     PacketDelayMS: 0
@@ -986,7 +986,7 @@ MonoBehaviour:
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 93d547319a3d26d45bee8b9e89a980f2, type: 2}
-    TickRate: 30
+    TickRate: 60
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
